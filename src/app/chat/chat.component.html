@@ -1,1 +1,5 @@
-<p>chat works!</p>
+<input type="text" [(ngModel)]="this.content" />
+<input type="text" [(ngModel)]="this.author" />
+<input type="text" [(ngModel)]="this.receiver" />
+<button (click)="sendMessage()">send</button>
+<button (click)="connect()">connect</button>
