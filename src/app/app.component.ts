@@ -5,8 +5,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  message = 'eine nachricht';
-  sender = 'a';
+  content = 'eine nachricht';
+  author = 'a';
   receiver = 'b';
   title = 'chat';
   socket: WebSocket | null = null;
@@ -17,7 +17,7 @@ export class AppComponent {
       console.log('[open] Connection established');
       console.log('Sending to server');
       let registerMessage = {
-        sender: this.sender,
+        author: this.author,
       };
       if (this.socket) this.socket.send(JSON.stringify(registerMessage));
     };
@@ -41,10 +41,11 @@ export class AppComponent {
       console.log(`[error]`);
     };
   }
+
   sendMessage() {
     const message = {
       receiver: this.receiver,
-      message: this.message,
+      content: this.content,
     };
     if (this.socket) this.socket.send(JSON.stringify(message));
   }
