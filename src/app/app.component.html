@@ -1,6 +1,7 @@
+<h1>Eins Chat</h1>
+<!-- This nav gives you links to click, which tells the router which route to use (defined in the routes constant in  AppRoutingModule) -->
 <input type="text" [(ngModel)]="this.content" />
 <input type="text" [(ngModel)]="this.author" />
 <input type="text" [(ngModel)]="this.receiver" />
 <button (click)="sendMessage()">send</button>
 <button (click)="connect()">connect</button>
-<router-outlet></router-outlet>
