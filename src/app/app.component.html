@@ -1,0 +1,6 @@
+<input type="text" [(ngModel)]="this.message" />
+<input type="text" [(ngModel)]="this.sender" />
+<input type="text" [(ngModel)]="this.receiver" />
+<button (click)="sendMessage()">send</button>
+<button (click)="connect()">connect</button>
+<router-outlet></router-outlet>
