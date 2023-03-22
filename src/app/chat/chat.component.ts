@@ -10,11 +10,11 @@ import { Router } from '@angular/router';
 })
 export class ChatComponent implements OnInit {
   content = 'eine nachricht';
-  receiver = 'b';
   allMessages: Message[] = [];
   selectedMessages: Message[] = [];
   contacts: Set<string> = new Set();
   selectedChat: string = '';
+  receiver = this.selectedChat;
   constructor(private router: Router, private apiClient: ApiClientService) {
     this.connect();
     this.loadMessages();
@@ -69,7 +69,7 @@ export class ChatComponent implements OnInit {
   }
   setSelectedChat(selectedName: any) {
     this.selectedChat = selectedName;
-
+    this.receiver = this.selectedChat;
     this.selectedMessages = this.allMessages.filter(
       (message) =>
         message.author === selectedName || message.receiver === selectedName
