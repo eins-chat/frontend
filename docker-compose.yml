@@ -13,6 +13,8 @@ services:
       # Port für die API
       API_URL: "http://chatserver:3000"
       WEBSOCKET_URL: "http://chatserver:8080"
+      MONGO__USERNAME: root
+      MONGO__PASSWORD: pw
 
   mongo:
     image: mongo
