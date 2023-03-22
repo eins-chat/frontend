@@ -1,5 +1,9 @@
 <input type="text" [(ngModel)]="this.content" />
 <button (click)="sendMessage()">send</button>
+
+<input type="text" [(ngModel)]="this.searchterm" />
+<button (click)="search()">suchen</button>
+
 <div>Chatverlauf</div>
 <app-conversation [messages]="selectedMessages"></app-conversation>
 <div>Kontakte</div>

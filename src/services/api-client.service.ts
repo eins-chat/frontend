@@ -73,6 +73,23 @@ export class ApiClientService {
       }
     });
   }
+
+  async getUsers(name: string) {
+    return new Promise<string[]>((resolve) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.httpClient
+          .get<string[]>(`${API_BASE_URL}/users/` + name, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .subscribe((res) => {
+            resolve(res);
+          });
+      }
+    });
+  }
 }
 
 type TokenResponse = {
