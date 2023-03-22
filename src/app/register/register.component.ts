@@ -22,6 +22,7 @@ export class RegisterComponent implements OnInit {
   async register() {
     const token = await this.apiClient.register(this.username, this.password);
     localStorage.setItem('token', token);
+    localStorage.setItem('username', this.username); //TODO
     this.router.navigate(['/chat']);
   }
 }

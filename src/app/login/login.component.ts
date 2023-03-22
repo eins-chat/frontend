@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   async login() {
     const token = await this.apiClient.login(this.username, this.password);
     localStorage.setItem('token', token);
+    localStorage.setItem('username', this.username); //TODO
     this.router.navigate(['/chat']);
   }
 

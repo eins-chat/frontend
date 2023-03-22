@@ -14,7 +14,7 @@ export class ChatComponent implements OnInit {
   allMessages: Message[] = [];
   selectedMessages: Message[] = [];
   contacts: Set<string> = new Set();
-
+  selectedChat: string = '';
   constructor(private router: Router, private apiClient: ApiClientService) {
     this.connect();
     this.loadMessages();
@@ -41,6 +41,7 @@ export class ChatComponent implements OnInit {
     this.socket.onmessage = (event) => {
       console.log(`[message] Data received from server: ${event.data}`);
       this.allMessages.push(JSON.parse(event.data));
+      this.setSelectedChat(this.selectedChat);
     };
 
     this.socket.onclose = function (event) {
@@ -67,7 +68,7 @@ export class ChatComponent implements OnInit {
     }
   }
   setSelectedChat(selectedName: any) {
-    console.log(selectedName);
+    this.selectedChat = selectedName;
 
     this.selectedMessages = this.allMessages.filter(
       (message) =>
