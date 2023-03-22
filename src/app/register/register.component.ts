@@ -14,7 +14,8 @@ export class RegisterComponent implements OnInit {
   constructor(private apiClient: ApiClientService, private router: Router) {}
   ngOnInit(): void {}
   async register() {
-    //const token = await this.apiClient.register(this.username, this.password);
-    this.router.navigate(['/chat', { token: 'token' }]);
+    const token = await this.apiClient.register(this.username, this.password);
+    localStorage.setItem('token', token);
+    this.router.navigate(['/chat']);
   }
 }

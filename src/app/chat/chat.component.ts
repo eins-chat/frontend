@@ -7,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatComponent implements OnInit {
   content = 'eine nachricht';
-  author = 'a';
   receiver = 'b';
-  constructor() {}
+  constructor() {
+    this.connect();
+  }
 
   ngOnInit(): void {}
 
@@ -21,7 +22,7 @@ export class ChatComponent implements OnInit {
       console.log('[open] Connection established');
       console.log('Sending to server');
       let registerMessage = {
-        author: this.author,
+        token: localStorage.getItem('token'),
       };
       if (this.socket) this.socket.send(JSON.stringify(registerMessage));
     };

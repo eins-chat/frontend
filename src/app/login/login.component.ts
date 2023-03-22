@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiClientService } from 'src/services/api-client.service';
 
 @Component({
   selector: 'app-login',
@@ -9,10 +10,15 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
-  constructor(private router: Router) {}
+  constructor(private router: Router, private apiClient: ApiClientService) {}
 
   ngOnInit(): void {}
-  login() {
-    this.router.navigate(['/chat', { token: 'alsoDasIstIhrHaus' }]);
+  async login() {
+    const token = await this.apiClient.login(this.username, this.password);
+    localStorage.setItem('token', token);
+    this.router.navigate(['/chat']);
+  }
+  goToRegister() {
+    this.router.navigate(['/register']);
   }
 }

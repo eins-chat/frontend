@@ -11,17 +11,30 @@ export class ApiClientService {
   async register(username: string, password: string) {
     return new Promise<string>((resolve) => {
       this.httpClient
-        .post<string>('http://localhost:3000/register', {
+        .post<TokenResponse>('http://localhost:3000/register', {
           username: username,
           password: password,
         })
-        .subscribe((token) => {
-          resolve(token);
+        .subscribe((res) => {
+          resolve(res.token);
         });
     });
   }
 
-  async login(user: User) {
-    return new Promise<string>((resolve) => {});
+  async login(username: string, password: string) {
+    return new Promise<any>((resolve) => {
+      this.httpClient
+        .post<TokenResponse>('http://localhost:3000/login', {
+          username: username,
+          password: password,
+        })
+        .subscribe((res) => {
+          resolve(res.token);
+        });
+    });
   }
 }
+
+type TokenResponse = {
+  token: string;
+};
