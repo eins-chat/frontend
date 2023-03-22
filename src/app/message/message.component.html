@@ -1,10 +1,13 @@
 <div class="container darker">
-  <div style="color: blue;">{{ message.author }}</div>
+  <div style="color: blue">{{ message.author }}</div>
   <p>{{ message.content }}</p>
-  <span class="time-left">{{ message.timestamp | date : "dd.MM.yy hh:mm" }}</span>
+  <span class="time-left">{{
+    message.timestamp | date : "dd.MM.yy HH:mm"
+  }}</span>
 </div>
 
-<style>/* Chat containers */
+<style>
+  /* Chat containers */
   .container {
     border: 2px solid #dedede;
     background-color: #f1f1f1;
@@ -39,7 +42,7 @@
   .container img.right {
     float: right;
     margin-left: 20px;
-    margin-right:0;
+    margin-right: 0;
   }
 
   /* Style time text */
@@ -52,4 +55,5 @@
   .time-left {
     float: left;
     color: #999;
-  }</style>
+  }
+</style>

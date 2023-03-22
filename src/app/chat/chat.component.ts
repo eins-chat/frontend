@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiClientService } from 'src/services/api-client.service';
-import { Message } from '../models/models';
+import { Message, User } from '../models/models';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
@@ -17,6 +17,7 @@ export class ChatComponent implements OnInit {
   selectedChat: string = '';
   receiver = this.selectedChat;
   searchterm = '';
+  searchResults: string[] = [];
   constructor(private router: Router, private apiClient: ApiClientService) {
     this.connect();
     this.loadMessages();
@@ -96,7 +97,7 @@ export class ChatComponent implements OnInit {
       const username = this.contacts.delete(usernameOfLoggedInUser);
     }
   }
-  search() {
-    this.apiClient.getUsers(this.searchterm);
+  async search() {
+    this.searchResults = await this.apiClient.getUsers(this.searchterm);
   }
 }

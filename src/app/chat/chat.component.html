@@ -1,8 +1,18 @@
 <input type="text" [(ngModel)]="this.receiver" placeholder="Empfänger" />
 
-<input type="text" [(ngModel)]="this.searchterm" placeholder="Nutzersuche" />
-<button (click)="search()">suchen</button>
-
+<input
+  type="text"
+  [(ngModel)]="this.searchterm"
+  placeholder="Nutzersuche"
+  (input)="search()"
+/>
+<div>
+  <app-chat-preview
+    *ngFor="let user of searchResults"
+    [username]="user"
+    (newClickEvent)="setSelectedChat($event)"
+  ></app-chat-preview>
+</div>
 <div class="parent">
   <div class="contacts">
     <div style="font-weight: bold">letzte Kontakte</div>
@@ -17,7 +27,7 @@
   <div class="chat">
     <div style="font-weight: bold">Chatverlauf</div>
     <div
-      style="overflow: auto; max-height: 70vh; margin-bottom: 1em"
+      style="overflow: auto; max-height: 80vh; margin-bottom: 1em"
       class="messageContainer"
     >
       <app-conversation [messages]="selectedMessages"></app-conversation>
