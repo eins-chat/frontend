@@ -102,6 +102,7 @@ export class ChatComponent implements OnInit {
       this.searchResults = [];
     } else {
       this.searchResults = await this.apiClient.getUsers(this.searchterm);
+      //todo: remove own user
     }
   }
 }
