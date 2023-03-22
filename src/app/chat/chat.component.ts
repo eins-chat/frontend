@@ -45,6 +45,7 @@ export class ChatComponent implements OnInit {
       console.log(`[message] Data received from server: ${event.data}`);
       this.allMessages.push(JSON.parse(event.data));
       this.setSelectedChat(this.selectedChat);
+      this.updateRecentChats();
     };
 
     this.socket.onclose = function (event) {
@@ -80,6 +81,10 @@ export class ChatComponent implements OnInit {
   }
   async loadMessages() {
     this.allMessages = await this.apiClient.getMessages();
+    this.updateRecentChats();
+  }
+
+  updateRecentChats() {
     this.allMessages.forEach((message) => {
       if (message.author) {
         this.contacts.add(message.author);

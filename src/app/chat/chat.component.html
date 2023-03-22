@@ -1,16 +1,41 @@
-<input type="text" [(ngModel)]="this.content" />
-<input type="text" [(ngModel)]="this.receiver" placeholder="Empfänger"/>
-<button (click)="sendMessage()">send</button>
+<input type="text" [(ngModel)]="this.receiver" placeholder="Empfänger" />
 
-<input type="text" [(ngModel)]="this.searchterm" placeholder="Nutzersuche"/>
+<input type="text" [(ngModel)]="this.searchterm" placeholder="Nutzersuche" />
 <button (click)="search()">suchen</button>
 
-
-<div>Chatverlauf</div>
-<app-conversation [messages]="selectedMessages"></app-conversation>
-<div>letzte Kontakte</div>
-<app-chat-preview
-  *ngFor="let user of contacts"
-  [username]="user"
-  (newClickEvent)="setSelectedChat($event)"
-></app-chat-preview>
+<div class="parent">
+  <div class="contacts">
+    <div style="font-weight: bold">letzte Kontakte</div>
+    <div style="overflow: auto; max-height: 80vh">
+      <app-chat-preview
+        *ngFor="let user of contacts"
+        [username]="user"
+        (newClickEvent)="setSelectedChat($event)"
+      ></app-chat-preview>
+    </div>
+  </div>
+  <div class="chat">
+    <div style="font-weight: bold">Chatverlauf</div>
+    <div
+      style="overflow: auto; max-height: 70vh; margin-bottom: 1em"
+      class="messageContainer"
+    >
+      <app-conversation [messages]="selectedMessages"></app-conversation>
+    </div>
+    <div>
+      <input type="text" [(ngModel)]="this.content" /><button
+        (click)="sendMessage()"
+      >
+        send
+      </button>
+    </div>
+  </div>
+</div>
+<style>
+  .parent {
+    display: flex;
+  }
+  .contacts {
+    margin-right: 3em;
+  }
+</style>
