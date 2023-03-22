@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Message, User } from 'src/app/models/models';
-
-const API_BASE_URL = 'http://localhost:3000';
+import { environment } from './../environments/environment';
+const API_BASE_URL = environment.API_URL;
 
 @Injectable({
   providedIn: 'root',

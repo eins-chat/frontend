@@ -1,20 +1,14 @@
 # Use root/example as user/password credentials
-version: '3.1'
+version: '3.7'
 
 services:
   fronted:
-    image: einsChatFrontend
+    image: chatfrontend
     restart: always
     ports:
-      - 4200:4200
+      - 4200:80
     depends_on:
       - chatserver
-    environment:
-      # Port für die API
-      API_URL: "http://chatserver:3000"
-      WEBSOCKET_URL: "http://chatserver:8080"
-      MONGO__USERNAME: root
-      MONGO__PASSWORD: pw
 
   mongo:
     image: mongo
@@ -22,7 +16,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: pw
-
+    ports:
+      - 27017:27017
   chatserver:
     image: chatserver
     depends_on:
@@ -34,7 +29,7 @@ services:
     environment:
       # Port für die API
       API_PORT: 3000
-      API_CORS_ORIGIN : "http://frontend:4200"
+      API_CORS_ORIGIN : "http://localhost:4200"
 
       # Port für Web Sockets
       WEB_SOCKET_PORT : 8080

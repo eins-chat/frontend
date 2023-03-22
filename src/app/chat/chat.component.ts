@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiClientService } from 'src/services/api-client.service';
 import { Message } from '../models/models';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-chat',
@@ -30,7 +31,8 @@ export class ChatComponent implements OnInit {
   socket: WebSocket | null = null;
 
   connect() {
-    this.socket = new WebSocket('ws://localhost:8080');
+    const webSocketUrl = environment.WEBSOCKET_URL;
+    this.socket = new WebSocket(webSocketUrl);
     this.socket.onopen = () => {
       console.log('[open] Connection established');
       console.log('Sending to server');
@@ -84,8 +86,8 @@ export class ChatComponent implements OnInit {
       }
       this.contacts.add(message.receiver);
     });
-    const usernameOfLoggedInUser = localStorage.getItem("username");
-    if(usernameOfLoggedInUser){
+    const usernameOfLoggedInUser = localStorage.getItem('username');
+    if (usernameOfLoggedInUser) {
       const username = this.contacts.delete(usernameOfLoggedInUser);
     }
   }
