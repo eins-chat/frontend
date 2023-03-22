@@ -15,7 +15,7 @@ export class ChatComponent implements OnInit {
   contacts: Set<string> = new Set();
   selectedChat: string = '';
   receiver = this.selectedChat;
-  searchterm = 'hier nach einem namen suchen';
+  searchterm = '';
   constructor(private router: Router, private apiClient: ApiClientService) {
     this.connect();
     this.loadMessages();
@@ -84,7 +84,10 @@ export class ChatComponent implements OnInit {
       }
       this.contacts.add(message.receiver);
     });
-    //const username = this.contacts.delete('name'); //TODO
+    const usernameOfLoggedInUser = localStorage.getItem("username");
+    if(usernameOfLoggedInUser){
+      const username = this.contacts.delete(usernameOfLoggedInUser);
+    }
   }
   search() {
     this.apiClient.getUsers(this.searchterm);

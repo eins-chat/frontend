@@ -1,8 +1,10 @@
 <input type="text" [(ngModel)]="this.content" />
+<input type="text" [(ngModel)]="this.receiver" placeholder="Empfänger"/>
 <button (click)="sendMessage()">send</button>
 
-<input type="text" [(ngModel)]="this.searchterm" />
+<input type="text" [(ngModel)]="this.searchterm" placeholder="Nutzersuche"/>
 <button (click)="search()">suchen</button>
+
 
 <div>Chatverlauf</div>
 <app-conversation [messages]="selectedMessages"></app-conversation>
