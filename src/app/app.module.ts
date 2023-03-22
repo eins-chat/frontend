@@ -10,6 +10,9 @@ import { ChatComponent } from './chat/chat.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
+import { MessageComponent } from './message/message.component';
+import { ChatPreviewComponent } from './chat-preview/chat-preview.component';
+import { ConversationComponent } from './conversation/conversation.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -23,6 +26,9 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent,
     ChatComponent,
+    MessageComponent,
+    ChatPreviewComponent,
+    ConversationComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiClientService } from 'src/services/api-client.service';
+import { Message } from '../models/models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -8,11 +11,20 @@ import { Component, OnInit } from '@angular/core';
 export class ChatComponent implements OnInit {
   content = 'eine nachricht';
   receiver = 'b';
-  constructor() {
+  allMessages: Message[] = [];
+  selectedMessages: Message[] = [];
+  contacts: Set<string> = new Set();
+
+  constructor(private router: Router, private apiClient: ApiClientService) {
     this.connect();
+    this.loadMessages();
   }
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    if (!(await this.apiClient.validateSession())) {
+      this.router.navigate(['/login']);
+    }
+  }
 
   socket: WebSocket | null = null;
 
@@ -26,8 +38,9 @@ export class ChatComponent implements OnInit {
       };
       if (this.socket) this.socket.send(JSON.stringify(registerMessage));
     };
-    this.socket.onmessage = function (event) {
+    this.socket.onmessage = (event) => {
       console.log(`[message] Data received from server: ${event.data}`);
+      this.allMessages.push(JSON.parse(event.data));
     };
 
     this.socket.onclose = function (event) {
@@ -48,10 +61,27 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-    const message = {
-      receiver: this.receiver,
-      content: this.content,
-    };
-    if (this.socket) this.socket.send(JSON.stringify(message));
+    const message = new Message(this.content, this.receiver);
+    if (this.socket) {
+      this.socket.send(JSON.stringify(message));
+    }
+  }
+  setSelectedChat(selectedName: any) {
+    console.log(selectedName);
+
+    this.selectedMessages = this.allMessages.filter(
+      (message) =>
+        message.author === selectedName || message.receiver === selectedName
+    );
+  }
+  async loadMessages() {
+    this.allMessages = await this.apiClient.getMessages();
+    this.allMessages.forEach((message) => {
+      if (message.author) {
+        this.contacts.add(message.author);
+      }
+      this.contacts.add(message.receiver);
+    });
+    //const username = this.contacts.delete('name'); //TODO
   }
 }

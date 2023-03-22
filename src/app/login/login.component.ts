@@ -10,14 +10,21 @@ import { ApiClientService } from 'src/services/api-client.service';
 export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
+
   constructor(private router: Router, private apiClient: ApiClientService) {}
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    if (await this.apiClient.validateSession()) {
+      this.router.navigate(['/chat']);
+    }
+  }
+
   async login() {
     const token = await this.apiClient.login(this.username, this.password);
     localStorage.setItem('token', token);
     this.router.navigate(['/chat']);
   }
+
   goToRegister() {
     this.router.navigate(['/register']);
   }

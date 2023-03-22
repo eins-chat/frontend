@@ -1,3 +1,10 @@
 <input type="text" [(ngModel)]="this.content" />
 <input type="text" [(ngModel)]="this.receiver" />
 <button (click)="sendMessage()">send</button>
+<app-conversation [messages]="selectedMessages"></app-conversation>
+<div>Kontakte</div>
+<app-chat-preview
+  *ngFor="let user of contacts"
+  [username]="user"
+  (newClickEvent)="setSelectedChat($event)"
+></app-chat-preview>

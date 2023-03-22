@@ -9,23 +9,21 @@ export class User {
 }
 
 export class Message {
-  public readonly author: string;
-  public readonly content: string;
-  public readonly timestamp: number;
-
-  public readonly receiver: string;
+  public content: string;
+  public receiver: string;
+  public author?: string;
+  public timestamp?: number;
 
   constructor(
-    author: string,
     content: string,
-    timestamp: number,
-    receiver: string
+    receiver: string,
+    author?: string,
+    timestamp?: number
   ) {
-    this.author = author;
     this.content = content;
-    this.timestamp = timestamp;
-
     this.receiver = receiver;
+    this.author = author;
+    this.timestamp = timestamp;
   }
 
   toString(): string {

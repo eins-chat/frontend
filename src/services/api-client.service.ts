@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/models/models';
+import { Message, User } from 'src/app/models/models';
+
+const API_BASE_URL = 'http://localhost:3000';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +13,7 @@ export class ApiClientService {
   async register(username: string, password: string) {
     return new Promise<string>((resolve) => {
       this.httpClient
-        .post<TokenResponse>('http://localhost:3000/register', {
+        .post<TokenResponse>(`${API_BASE_URL}/register`, {
           username: username,
           password: password,
         })
@@ -24,13 +26,51 @@ export class ApiClientService {
   async login(username: string, password: string) {
     return new Promise<any>((resolve) => {
       this.httpClient
-        .post<TokenResponse>('http://localhost:3000/login', {
+        .post<TokenResponse>(`${API_BASE_URL}/login`, {
           username: username,
           password: password,
         })
         .subscribe((res) => {
           resolve(res.token);
         });
+    });
+  }
+
+  async validateSession(): Promise<boolean> {
+    const token = localStorage.getItem('token') || '';
+
+    return new Promise<boolean>((resolve) => {
+      this.httpClient
+        .post(
+          `${API_BASE_URL}/validateSession`,
+          {},
+          {
+            observe: 'response',
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .subscribe((res) => {
+          resolve(res.status === 200);
+        });
+    });
+  }
+
+  async getMessages() {
+    return new Promise<Message[]>((resolve) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.httpClient
+          .get<Message[]>(`${API_BASE_URL}/messages`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .subscribe((res) => {
+            resolve(res);
+          });
+      }
     });
   }
 }
