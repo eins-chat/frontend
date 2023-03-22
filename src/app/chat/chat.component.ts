@@ -98,6 +98,10 @@ export class ChatComponent implements OnInit {
     }
   }
   async search() {
-    this.searchResults = await this.apiClient.getUsers(this.searchterm);
+    if (this.searchterm.length === 0) {
+      this.searchResults = [];
+    } else {
+      this.searchResults = await this.apiClient.getUsers(this.searchterm);
+    }
   }
 }
