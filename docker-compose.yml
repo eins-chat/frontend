@@ -21,6 +21,7 @@ services:
       - 27017:27017
   chatserver:
     image: chatserver
+    build: ../backend
     depends_on:
       - mongo
     restart: always
