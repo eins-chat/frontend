@@ -8,11 +8,12 @@ import { User } from '../models/models';
 })
 export class ChatPreviewComponent implements OnInit {
   @Input() username = '';
+  @Input() userID = '';
   @Output() newClickEvent = new EventEmitter<string>();
   constructor() {}
 
   ngOnInit(): void {}
   previewClick() {
-    this.newClickEvent.emit(this.username);
+    this.newClickEvent.emit(this.userID);
   }
 }

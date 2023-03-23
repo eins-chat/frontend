@@ -4,7 +4,7 @@
   placeholder="Nutzersuche"
   (input)="search()"
 />
-<br><br>
+<br /><br />
 <div>
   <app-chat-preview
     *ngFor="let user of searchResults"
@@ -20,12 +20,20 @@
       <app-chat-preview
         *ngFor="let user of contacts"
         [username]="user"
+        [userID]="user"
+        (newClickEvent)="setSelectedChat($event)"
+      ></app-chat-preview>
+      <br />
+      <app-chat-preview
+        *ngFor="let group of groups"
+        [username]="group.name"
+        [userID]="group.id"
         (newClickEvent)="setSelectedChat($event)"
       ></app-chat-preview>
     </div>
   </div>
   <div class="chat">
-    <div style="font-weight: bold">Chatverlauf</div>
+    <div style="font-weight: bold">Chatverlauf - {{ this.selectedChat }}</div>
     <div
       style="overflow: auto; max-height: 80vh; margin-bottom: 1em"
       class="messageContainer"
@@ -33,11 +41,12 @@
       <app-conversation [messages]="selectedMessages"></app-conversation>
     </div>
     <div>
-      <input type="text" [(ngModel)]="this.content" /><button
-        (click)="sendMessage()"
-      >
-        send
-      </button>
+      <input
+        type="text"
+        [(ngModel)]="this.content"
+        placeholder="Nachricht an {{ this.selectedChat }}"
+      />
+      <button (click)="sendMessage()">send</button>
     </div>
   </div>
 </div>

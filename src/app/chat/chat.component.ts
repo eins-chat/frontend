@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiClientService } from 'src/services/api-client.service';
-import { Message, MessageType, User } from '../models/models';
+import { Group, Message, MessageType, User } from '../models/models';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
@@ -10,11 +10,13 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./chat.component.css'],
 })
 export class ChatComponent implements OnInit {
-  content = 'Eine Nachricht';
+  content = '';
   allMessages: Message[] = [];
   selectedMessages: Message[] = [];
   contacts: Set<string> = new Set();
+  groups: Set<Group> = new Set();
   selectedChat: string = '';
+  selectedChatID: string = '';
   selectedChatType: MessageType = MessageType.PRIVATE_CHAT;
   searchterm = '';
   searchResults: string[] = [];
@@ -70,21 +72,28 @@ export class ChatComponent implements OnInit {
   sendMessage() {
     const message: Message = {
       content: this.content,
-      receiver: this.selectedChat,
+      receiver: this.selectedChatID,
       type: this.selectedChatType,
     };
     if (this.socket) {
       this.socket.send(JSON.stringify(message));
     }
   }
-  setSelectedChat(selectedName: any) {
-    this.selectedChat = selectedName;
+  async setSelectedChat(selectedName: any) {
     this.selectedMessages = this.allMessages.filter(
       (message) =>
         message.author === selectedName || message.receiver === selectedName
     );
     this.selectedChatType =
       this.selectedMessages[0]?.type || MessageType.PRIVATE_CHAT;
+    if (this.selectedChatType == MessageType.GROUP_CHAT) {
+      const group: Group = await this.apiClient.getGroupByID(selectedName);
+      this.selectedChat = group.name;
+      this.selectedChatID = group.id;
+    } else {
+      this.selectedChat = selectedName;
+      this.selectedChatID = selectedName;
+    }
   }
   async loadMessages() {
     this.allMessages = await this.apiClient.getMessages();
@@ -92,11 +101,20 @@ export class ChatComponent implements OnInit {
   }
 
   updateRecentChats() {
+    let groupIDs: Set<string> = new Set();
     this.allMessages.forEach((message) => {
       if (message.author) {
         this.contacts.add(message.author);
       }
-      this.contacts.add(message.receiver);
+      if (message.type == MessageType.PRIVATE_CHAT) {
+        this.contacts.add(message.receiver);
+      } else {
+        groupIDs.add(message.receiver);
+      }
+    });
+    groupIDs.forEach(async (id) => {
+      let group = await this.apiClient.getGroupByID(id);
+      this.groups.add(group);
     });
     const usernameOfLoggedInUser = localStorage.getItem('username');
     if (usernameOfLoggedInUser) {
