@@ -16,7 +16,6 @@ export class ChatComponent implements OnInit {
   contacts: Set<string> = new Set();
   selectedChat: string = '';
   selectedChatType: MessageType = MessageType.PRIVATE_CHAT;
-  receiver = this.selectedChat;
   searchterm = '';
   searchResults: string[] = [];
   constructor(private router: Router, private apiClient: ApiClientService) {
@@ -70,7 +69,7 @@ export class ChatComponent implements OnInit {
   sendMessage() {
     const message = new Message(
       this.content,
-      this.receiver,
+      this.selectedChat,
       this.selectedChatType
     );
     if (this.socket) {
@@ -79,7 +78,6 @@ export class ChatComponent implements OnInit {
   }
   setSelectedChat(selectedName: any) {
     this.selectedChat = selectedName;
-    this.receiver = this.selectedChat;
     this.selectedMessages = this.allMessages.filter(
       (message) =>
         message.author === selectedName || message.receiver === selectedName

@@ -1,11 +1,10 @@
-<input type="text" [(ngModel)]="this.receiver" placeholder="Empfänger" />
-
 <input
   type="text"
   [(ngModel)]="this.searchterm"
   placeholder="Nutzersuche"
   (input)="search()"
 />
+<br><br>
 <div>
   <app-chat-preview
     *ngFor="let user of searchResults"
