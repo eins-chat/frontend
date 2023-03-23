@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./chat.component.css'],
 })
 export class ChatComponent implements OnInit {
-  content = 'eine nachricht';
+  content = 'Eine Nachricht';
   allMessages: Message[] = [];
   selectedMessages: Message[] = [];
   contacts: Set<string> = new Set();
@@ -18,6 +18,7 @@ export class ChatComponent implements OnInit {
   selectedChatType: MessageType = MessageType.PRIVATE_CHAT;
   searchterm = '';
   searchResults: string[] = [];
+
   constructor(private router: Router, private apiClient: ApiClientService) {
     this.connect();
     this.loadMessages();
@@ -67,11 +68,11 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-    const message = new Message(
-      this.content,
-      this.selectedChat,
-      this.selectedChatType
-    );
+    const message: Message = {
+      content: this.content,
+      receiver: this.selectedChat,
+      type: this.selectedChatType,
+    };
     if (this.socket) {
       this.socket.send(JSON.stringify(message));
     }
@@ -82,7 +83,8 @@ export class ChatComponent implements OnInit {
       (message) =>
         message.author === selectedName || message.receiver === selectedName
     );
-    this.selectedChatType = this.selectedMessages[0].type;
+    this.selectedChatType =
+      this.selectedMessages[0]?.type || MessageType.PRIVATE_CHAT;
   }
   async loadMessages() {
     this.allMessages = await this.apiClient.getMessages();
@@ -127,11 +129,11 @@ export class ChatComponent implements OnInit {
       throw new Error('no username in localstorage');
     }
     const groupID = await this.apiClient.createGroup(memberList);
-    const message = new Message(
-      'Group created',
-      groupID,
-      MessageType.GROUP_CHAT
-    );
+    const message: Message = {
+      content: 'Group created',
+      receiver: groupID,
+      type: MessageType.GROUP_CHAT,
+    };
     if (this.socket) {
       this.socket.send(JSON.stringify(message));
     }

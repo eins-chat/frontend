@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Group, Message, User } from 'src/app/models/models';
+import { Group, Message } from 'src/app/models/models';
 import { environment } from './../environments/environment';
 const API_BASE_URL = environment.API_URL;
 
@@ -8,17 +8,6 @@ const API_BASE_URL = environment.API_URL;
   providedIn: 'root',
 })
 export class ApiClientService {
-  createGroup(memberList: string[]) {
-    return new Promise<string>((resolve) => {
-      this.httpClient
-        .post<Group>(`${API_BASE_URL}/createGroup`, {
-          memberList: memberList,
-        })
-        .subscribe((res) => {
-          resolve(res.groupID);
-        });
-    });
-  }
   constructor(private httpClient: HttpClient) {}
 
   async register(username: string, password: string) {
@@ -99,6 +88,18 @@ export class ApiClientService {
             resolve(res);
           });
       }
+    });
+  }
+
+  createGroup(memberList: string[]) {
+    return new Promise<string>((resolve) => {
+      this.httpClient
+        .post<Group>(`${API_BASE_URL}/createGroup`, {
+          memberList: memberList,
+        })
+        .subscribe((res) => {
+          resolve(res.id);
+        });
     });
   }
 }
