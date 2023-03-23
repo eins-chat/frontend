@@ -14,7 +14,7 @@ export class ChatComponent implements OnInit {
   allMessages: Message[] = [];
   selectedMessages: Message[] = [];
   contacts: Set<string> = new Set();
-  groups: Set<Group> = new Set();
+  groups: Group[] = [];
   selectedChat: string = '';
   selectedChatID: string = '';
   selectedChatType: MessageType = MessageType.PRIVATE_CHAT;
@@ -114,7 +114,9 @@ export class ChatComponent implements OnInit {
     });
     groupIDs.forEach(async (id) => {
       let group = await this.apiClient.getGroupByID(id);
-      this.groups.add(group);
+      if (!this.groups.find((g) => g.id === group.id)) {
+        this.groups.push(group);
+      }
     });
     const usernameOfLoggedInUser = localStorage.getItem('username');
     if (usernameOfLoggedInUser) {
