@@ -15,6 +15,7 @@ export class ChatComponent implements OnInit {
   selectedMessages: Message[] = [];
   contacts: Set<string> = new Set();
   selectedChat: string = '';
+  selectedChatType: MessageType = MessageType.PRIVATE_CHAT;
   receiver = this.selectedChat;
   searchterm = '';
   searchResults: string[] = [];
@@ -70,7 +71,7 @@ export class ChatComponent implements OnInit {
     const message = new Message(
       this.content,
       this.receiver,
-      MessageType.PRIVATE_CHAT
+      this.selectedChatType
     );
     if (this.socket) {
       this.socket.send(JSON.stringify(message));
@@ -83,6 +84,7 @@ export class ChatComponent implements OnInit {
       (message) =>
         message.author === selectedName || message.receiver === selectedName
     );
+    this.selectedChatType = this.selectedMessages[0].type;
   }
   async loadMessages() {
     this.allMessages = await this.apiClient.getMessages();
