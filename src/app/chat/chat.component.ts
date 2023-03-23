@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiClientService } from 'src/services/api-client.service';
-import { Message, User } from '../models/models';
+import { Message, MessageType, User } from '../models/models';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
@@ -67,7 +67,11 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-    const message = new Message(this.content, this.receiver);
+    const message = new Message(
+      this.content,
+      this.receiver,
+      MessageType.PRIVATE_CHAT
+    );
     if (this.socket) {
       this.socket.send(JSON.stringify(message));
     }
@@ -102,7 +106,34 @@ export class ChatComponent implements OnInit {
       this.searchResults = [];
     } else {
       this.searchResults = await this.apiClient.getUsers(this.searchterm);
-      //todo: remove own user
+      const usernameOfLoggedInUser = localStorage.getItem('username');
+      if (usernameOfLoggedInUser) {
+        const indexOfOwnUsername = this.searchResults.indexOf(
+          usernameOfLoggedInUser,
+          0
+        );
+        if (indexOfOwnUsername != -1) {
+          this.searchResults.splice(indexOfOwnUsername, 1);
+        }
+      }
+    }
+  }
+  async createGroup() {
+    const usernameOfLoggedInUser = localStorage.getItem('username');
+    let memberList: string[];
+    if (usernameOfLoggedInUser) {
+      memberList = [usernameOfLoggedInUser];
+    } else {
+      throw new Error('no username in localstorage');
+    }
+    const groupID = await this.apiClient.createGroup(memberList);
+    const message = new Message(
+      'Group created',
+      groupID,
+      MessageType.GROUP_CHAT
+    );
+    if (this.socket) {
+      this.socket.send(JSON.stringify(message));
     }
   }
 }

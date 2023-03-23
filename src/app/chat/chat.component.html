@@ -16,6 +16,7 @@
 <div class="parent">
   <div class="contacts">
     <div style="font-weight: bold">letzte Kontakte</div>
+    <button (click)="createGroup()">Gruppe erstellen</button>
     <div style="overflow: auto; max-height: 80vh">
       <app-chat-preview
         *ngFor="let user of contacts"

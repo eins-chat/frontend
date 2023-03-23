@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Message } from '../models/models';
+import { Message, MessageType } from '../models/models';
 
 @Component({
   selector: 'app-message',
@@ -10,6 +10,7 @@ export class MessageComponent implements OnInit {
   @Input() message: Message = {
     author: '',
     content: '',
+    type: MessageType.PRIVATE_CHAT,
     receiver: '',
     timestamp: 0,
   };
