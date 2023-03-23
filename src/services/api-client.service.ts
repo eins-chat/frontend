@@ -102,6 +102,22 @@ export class ApiClientService {
         });
     });
   }
+  getGroupByID(selectedID: string) {
+    return new Promise<Group>((resolve) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.httpClient
+          .get<Group>(`${API_BASE_URL}/group/${selectedID}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .subscribe((res) => {
+            resolve(res);
+          });
+      }
+    });
+  }
 }
 
 type TokenResponse = {
