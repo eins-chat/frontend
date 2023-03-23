@@ -48,7 +48,7 @@ export class ChatComponent implements OnInit {
     this.socket.onmessage = (event) => {
       console.log(`[message] Data received from server: ${event.data}`);
       this.allMessages.push(JSON.parse(event.data));
-      this.setSelectedChat(this.selectedChat);
+      this.setSelectedChat(this.selectedChatID);
       this.updateRecentChats();
     };
 
