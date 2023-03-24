@@ -57,6 +57,8 @@ export class ChatComponent implements OnInit {
       this.selectedChatId,
       this.selectedChatType
     );
+
+    this.messageInput = '';
   }
 
   async setSelectedChat(selectedName: string) {

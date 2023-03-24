@@ -9,6 +9,7 @@
   <app-chat-preview
     *ngFor="let user of searchResults"
     [username]="user"
+    [userID]="user"
     (newClickEvent)="setSelectedChat($event)"
   ></app-chat-preview>
 </div>
