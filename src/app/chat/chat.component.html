@@ -1,8 +1,8 @@
 <input
   type="text"
-  [(ngModel)]="this.searchterm"
+  [(ngModel)]="this.searchTerm"
   placeholder="Nutzersuche"
-  (input)="search()"
+  (input)="searchUser()"
 />
 <br /><br />
 <div>
@@ -43,7 +43,7 @@
     <div>
       <input
         type="text"
-        [(ngModel)]="this.content"
+        [(ngModel)]="this.messageInput"
         placeholder="Nachricht an {{ this.selectedChat }}"
       />
       <button (click)="sendMessage()">send</button>

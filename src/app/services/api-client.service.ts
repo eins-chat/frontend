@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Group, Message } from 'src/app/models/models';
-import { environment } from './../environments/environment';
+import { environment } from '../../environments/environment';
 const API_BASE_URL = environment.API_URL;
 
 @Injectable({
@@ -91,23 +91,24 @@ export class ApiClientService {
     });
   }
 
-  createGroup(memberList: string[]) {
+  async createGroup(members: string[]) {
     return new Promise<string>((resolve) => {
       this.httpClient
         .post<Group>(`${API_BASE_URL}/createGroup`, {
-          memberList: memberList,
+          memberList: members,
         })
         .subscribe((res) => {
           resolve(res.id);
         });
     });
   }
-  getGroupByID(selectedID: string) {
+
+  async getGroupById(id: string) {
     return new Promise<Group>((resolve) => {
       const token = localStorage.getItem('token');
       if (token) {
         this.httpClient
-          .get<Group>(`${API_BASE_URL}/group/${selectedID}`, {
+          .get<Group>(`${API_BASE_URL}/group/${id}`, {
             headers: {
               Authorization: token,
             },
