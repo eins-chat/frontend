@@ -25,6 +25,7 @@
         (newClickEvent)="setSelectedChat($event)"
       ></app-chat-preview>
       <br />
+      <div style="font-weight: bold">Gruppen</div>
       <app-chat-preview
         *ngFor="let group of groups"
         [username]="group.name"
