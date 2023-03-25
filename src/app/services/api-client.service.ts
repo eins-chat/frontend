@@ -91,12 +91,25 @@ export class ApiClientService {
     });
   }
 
-  async createGroup(members: string[]) {
+  async createGroup(name: string, members: string[]) {
     return new Promise<string>((resolve) => {
+      const token = localStorage.getItem('token');
+
+      if (!token) return;
+
       this.httpClient
-        .post<Group>(`${API_BASE_URL}/createGroup`, {
-          memberList: members,
-        })
+        .post<Group>(
+          `${API_BASE_URL}/createGroup`,
+          {
+            name: name,
+            members: members,
+          },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
         .subscribe((res) => {
           resolve(res.id);
         });

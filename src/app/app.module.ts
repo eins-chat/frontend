@@ -6,13 +6,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { ChatComponent } from './chat/chat.component';
+import {
+  ChatComponent,
+  CreateGroupDialogComponent,
+} from './chat/chat.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { MessageComponent } from './message/message.component';
 import { ChatPreviewComponent } from './chat-preview/chat-preview.component';
 import { ConversationComponent } from './conversation/conversation.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -29,6 +34,7 @@ const routes: Routes = [
     MessageComponent,
     ChatPreviewComponent,
     ConversationComponent,
+    CreateGroupDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +42,8 @@ const routes: Routes = [
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
+    BrowserAnimationsModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

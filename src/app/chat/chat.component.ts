@@ -4,6 +4,7 @@ import { Group, Message, MessageType } from '../models/models';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { ChatSocketService } from '../services/chat-socket.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-chat',
@@ -29,7 +30,8 @@ export class ChatComponent implements OnInit {
   constructor(
     private router: Router,
     private apiClient: ApiClientService,
-    private chatSocket: ChatSocketService
+    private chatSocket: ChatSocketService,
+    private dialog: MatDialog
   ) {
     this.connect();
     this.loadMessages();
@@ -133,17 +135,15 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  async createGroup() {
+  async createGroup(name: string, members: string[]) {
     const usernameOfLoggedInUser = localStorage.getItem('username');
-    const members: string[] = [];
-
     if (usernameOfLoggedInUser) {
       members.push(usernameOfLoggedInUser);
     } else {
       throw new Error('No username in localstorage');
     }
 
-    const groupID = await this.apiClient.createGroup(members);
+    const groupID = await this.apiClient.createGroup(name, members);
 
     this.chatSocket.sendMessage(
       'Group created',
@@ -151,4 +151,50 @@ export class ChatComponent implements OnInit {
       MessageType.GROUP_CHAT
     );
   }
+
+  openDialog() {
+    const dialog = this.dialog.open(CreateGroupDialogComponent);
+
+    dialog.afterClosed().subscribe((result: X) => {
+      this.createGroup(result.name, result.selected);
+    });
+  }
+}
+
+@Component({
+  selector: 'create-group-dialog',
+  templateUrl: 'create-group-dialog.html',
+})
+export class CreateGroupDialogComponent implements OnInit {
+  users: string[] = [];
+
+  data: X = {
+    name: '',
+    selected: [],
+  };
+
+  constructor(private apiClient: ApiClientService) {}
+
+  async ngOnInit() {
+    const self = localStorage.getItem('username');
+    const users = await this.apiClient.getUsers('.*');
+
+    this.users = users.filter((u) => u !== self);
+  }
+
+  onSelect(e: any, name: string) {
+    if (e.target.checked) {
+      this.data.selected.push(name);
+    } else {
+      this.data.selected = this.data.selected.filter((n) => n !== name);
+    }
+  }
+}
+
+type X = {
+  name: string;
+  selected: string[];
+};
+export interface DialogData {
+  users: string[];
 }
