@@ -19,6 +19,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: pw
     ports:
       - 27017:27017
+    volumes:
+      - mongodbdata:/data/db
   chatserver:
     image: chatserver
     build: ../backend
@@ -94,3 +96,5 @@ services:
         QUZE06cXknNlwIdN5JqDsqujKLolwc6SKU6TAvlu8ec4BQvIiLc4NPvZXLnqN9JS
         Y6jae/hmQF62KLmoW22+NVfLKpBxiw0y5Md2iMvLCuul9qY02Rdh5/h0hBk=
         -----END RSA PRIVATE KEY-----
+volumes:
+  mongodbdata:
