@@ -15,8 +15,7 @@
 </div>
 <div class="parent">
   <div class="contacts">
-    <div style="font-weight: bold">letzte Kontakte</div>
-    <button (click)="openDialog()">Gruppe erstellen</button>
+    <div style="font-weight: bold">Letzte Kontakte</div>
     <div style="overflow: auto; max-height: 80vh">
       <app-chat-preview
         *ngFor="let user of contacts"
@@ -26,6 +25,7 @@
       ></app-chat-preview>
       <br />
       <div style="font-weight: bold">Gruppen</div>
+      <button (click)="openDialog()">Gruppe erstellen</button>
       <app-chat-preview
         *ngFor="let group of groups"
         [username]="group.name"
@@ -48,15 +48,11 @@
         [(ngModel)]="this.messageInput"
         placeholder="Nachricht an {{ this.selectedChat }}"
       />
-      <button (click)="sendMessage()">send</button>
+      <button (click)="sendMessage()">Senden</button>
     </div>
   </div>
 </div>
-<style>
-  .parent {
-    display: flex;
-  }
-  .contacts {
-    margin-right: 3em;
-  }
-</style>
+
+<br> <br> <br>
+
+<button (click)="logout()">Abmelden</button>
