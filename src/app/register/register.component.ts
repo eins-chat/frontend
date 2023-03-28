@@ -25,4 +25,8 @@ export class RegisterComponent implements OnInit {
     localStorage.setItem('username', this.username); //TODO
     this.router.navigate(['/chat']);
   }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
 }

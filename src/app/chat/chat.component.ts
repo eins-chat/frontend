@@ -159,6 +159,11 @@ export class ChatComponent implements OnInit {
       this.createGroup(result.name, result.selected);
     });
   }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 }
 
 @Component({

@@ -1,4 +1,9 @@
-<input type="text" [(ngModel)]="this.username" placeholder="username" />
-<input type="password" [(ngModel)]="this.password" placeholder="password" />
-<button (click)="login()">login</button>
-<button (click)="goToRegister()">register new Account</button>
+<input type="text" [(ngModel)]="this.username" placeholder="Nutzername" />
+<br>
+<input type="password" [(ngModel)]="this.password" placeholder="Passwort" />
+<br>
+<button (click)="login()">Anmelden</button>
+<br> <br>
+Noch nicht registriert? Dann Abfahrt!
+<br>
+<button (click)="goToRegister()">Registrieren</button>
