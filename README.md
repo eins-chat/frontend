@@ -1,8 +1,10 @@
 # 1 Chat - Frontend
 
+Unser Fokus liegt bei dieser Anwendung auf **einfacher Ausführbarkeit** beziehungsweise auf **einfachem Deployment**. Daher wird Docker zum Deployment genutzt. Dadurch kann die Anwendung mit minimalem Aufwand auf jedem System ausgeführt werden, auf dem **Docker** und **Docker Compose** installiert ist 
+
 ## Installationsanleitung
 
-Die Anwendung kann mit Docker installiert werden. Zum Starten und Testen auf dem Localhost sind die URLs schon angepasst, es müssen nur die beiden Repos geklont werden. Die Daten, die in der Datenbank gespeichert werden, sind über ein Docker Volume in den Container eingebunden. Somit werden die Daten nicht im Container sondern im Volume gespeichert. Das bedeutet, dass der Container bei Bedarf im späteren Verlauf auf eine neuere Version aktualisiert werden kann, ohne dass die Daten verloren gehen.
+Die Anwendung kann mit Docker installiert werden. Zum Starten und Testen auf dem Localhost sind die URLs schon angepasst, es müssen nur die beiden Repos geklont werden. Die Daten, die in der Datenbank gespeichert werden, sind über ein Docker Volume in den Container eingebunden. Somit werden die Daten nicht im Container sondern im Volume gespeichert. Das bedeutet, dass der Container für die Datenbank bei Bedarf im späteren Verlauf auf eine neuere Version der Datenbank (hier: MongoDB) aktualisiert werden kann, ohne dass die Daten verloren gehen.
 
 ```shell
 mkdir einsChat &&
