@@ -15,7 +15,7 @@ cd frontend &&
 docker compose up --build
 ```
 
-Zur Installation auf einem Server müssen die URLs in der Docker Compose Datei und die `environment.prod.ts` angepasst werden. In der `environment.prod.ts` müssen für das Frontend die URLs für den Server und den Websocket angepasst werden. In der Docker Compose Datei muss die URL für den Server für die CORS-Einstellungen angepasst werden.
+Zur Installation auf einem Server müssen die URLs in der Docker Compose Datei und die `environment.prod.ts` angepasst werden. In der `environment.prod.ts` müssen für das Frontend die URLs für den Server und den Websocket angepasst werden. In der Docker Compose Datei muss die URL für den Server für die CORS-Einstellungen angepasst werden. Wichtig zu beachten ist, dass am Ende aller URLs **kein** Slash stehen darf.
 
 ```shell
 mkdir einsChat &&
@@ -30,3 +30,7 @@ docker compose up --build
 
 Zum Testen muss für jeden eingeloggten Account ein eigenes Browserfenster (am besten im Privatmodus) geöffnet werden, da für jeden Account im Local Storage ein JWT gespeichert wird.
 Um einen anderen Nutzer zu finden, kann die Suche genutzt werden. Um einen Chat mit einem gefundenen Nutzer zu beginnen, muss auf den Namen des Nutzer geklickt werden. Des weiteren können Gruppen über den entsprechenden Button erstellt werden. Chats werden in einer Datenbank gespeichert und bleiben somit bestehen, auch wenn der Browser geschlossen wird.
+
+## Troubleshooting
+
+Manchmal treten 404-Fehler auf, wenn man direkt auf eine Unterseite (bspw. `http://localhost/chat`) navigiert. In diesem Fall muss manuell zurück auf die Startseite (`http://localhost`) navigiert werden. Von dort aus findet automatisch eine Weiterleitung statt.
